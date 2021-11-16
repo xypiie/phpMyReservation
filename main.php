@@ -13,9 +13,7 @@ include_once('functions.php');
 
 // MySQL
 
-mysql_connect(global_mysql_server, global_mysql_user, global_mysql_password)or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
-mysql_select_db(global_mysql_database)or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
-mysql_set_charset('utf8');
+mysql_connect();
 
 define('global_mysql_configuration_table', 'phpmyreservation_configuration');
 define('global_mysql_users_table', 'phpmyreservation_users');

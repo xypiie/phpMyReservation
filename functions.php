@@ -1,5 +1,39 @@
 <?php
 
+$con = 0;
+
+function mysql_connect()
+{
+	global $con;
+	$con = mysqli_connect(global_mysql_server, global_mysql_user, global_mysql_password)or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
+	mysqli_select_db($con, global_mysql_database)or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
+	mysqli_set_charset($con, 'utf8');
+}
+
+function mysql_query($q)
+{
+	global $con;
+	return mysqli_query($con, $q);
+}
+
+function mysql_fetch_array($q)
+{
+	global $con;
+	return mysqli_fetch_array($q);
+}
+
+function mysql_num_rows($q)
+{
+	global $con;
+	return mysqli_num_rows($q);
+}
+
+function mysql_real_escape_string($s)
+{
+	global $con;
+	return mysqli_real_escape_string($con, $s);
+}
+
 // Configuration
 
 function get_configuration($data)
