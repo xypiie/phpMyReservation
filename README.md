@@ -24,8 +24,9 @@ Fork of [OleJon's](http://www.olejon.net) discontinued timeslot booking system f
 * A modern browser 
 
 ## Screenshots
-![1.0 reservation screen](doc/demo.png "1.0 reservation screen")
-![1.0 signup screen](doc/signup.png "1.0 signup screen")
+![Signup screen](doc/signup.png "Signup screen")
+![Room overview screen](doc/demo1.png "Room overview screen")
+![Room reservation screen](doc/demo2.png "Room reservation screen")
 
 ## Installation
 1. Clone this repo
