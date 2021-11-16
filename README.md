@@ -46,5 +46,7 @@ Fork of [OleJon's](http://www.olejon.net) discontinued timeslot booking system f
 * modifications by [piie](http://piie.net)
 
 ## License
+Licensed under GPLv3.
+
 As there was no License file included in original source code drop from [OleJon's](http://www.olejon.net),
-it has been added according the licence of the [original source code repository](https://web.archive.org/web/20150402034455/http://code.google.com/p/phpmyreservation)
+GPLv3 license file has been added according the license of the [original source code repository](https://web.archive.org/web/20150402034455/http://code.google.com/p/phpmyreservation)

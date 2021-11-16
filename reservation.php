@@ -52,6 +52,7 @@ elseif(isset($_GET['week']))
 
 	if($room != "room-overview")
 	{
+		echo '<h1>Week: '.$week.'</h1>';
 
 		echo '<table id="reservation_table"><colgroup span="1" id="reservation_time_colgroup"></colgroup><colgroup span="7" id="reservation_day_colgroup"></colgroup>';
 
