@@ -9,6 +9,13 @@
 if(isset($_SESSION['logged_in']))
 {
 	echo ' | <a href="#help">Help</a>';
+	echo ' | <a href="#room-overview">Overview</a>';
+
+	$rooms = array_keys($global_rooms);
+	for($i = 0; $i < count($global_rooms); $i++)
+	{
+		echo ' | <a href="#'.$rooms[$i].'">'.$rooms[$i].'</a>';
+	}
 }
 
 ?>

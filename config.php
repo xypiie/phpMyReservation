@@ -51,11 +51,26 @@ define('global_currency', '€');
 // How many weeks forward in time to allow reservations
 define('global_weeks_forward', '2');
 
-// Possible reservation times. Use the same syntax as below (TimeFrom-TimeTo)
-$global_times = array(
-	'Desk 01',
-	'Desk 02',
-	'Desk 03',
-);
+// room definition
+$global_rooms = array(
+	"room-1101" => array(
+		'Desk 01',
+		'Desk 02',
+		'Desk 03',
+	),
+	"room-1102" => array(
+		'Desk 01',
+		'Desk 02',
+		'Desk 03',
+		'Desk 04',
+	),
+	"room-1103" => array(
+		'Desk 01',
+		'Desk 02',
+		'Desk 03',
+		'Desk 04',
+	),
+)
+
 
 ?>

@@ -35,37 +35,56 @@ elseif(isset($_GET['read_reservation_details']))
 elseif(isset($_GET['week']))
 {
 	$week = $_GET['week'];
+	$room = "room-overview";
 
-	echo '<table id="reservation_table"><colgroup span="1" id="reservation_time_colgroup"></colgroup><colgroup span="7" id="reservation_day_colgroup"></colgroup>';
-
-	$days_row = '<tr><td id="reservation_corner_td"><input type="button" class="blue_button small_button" id="reservation_today_button" value="Today"></td><th class="reservation_day_th">Monday</th><th class="reservation_day_th">Tuesday</th><th class="reservation_day_th">Wednesday</th><th class="reservation_day_th">Thursday</th><th class="reservation_day_th">Friday</th><th class="reservation_day_th">Saturday</th><th class="reservation_day_th">Sunday</th></tr>';
-
-	if($week == global_week_number)
+	if(isset($_GET['room']) && !empty($_GET['room']))
 	{
-		echo highlight_day($days_row);
-	}
-	else
-	{
-		echo $days_row;
+		$_SESSION['room'] = $_GET['room'];
 	}
 
-	foreach($global_times as $time)
+	if(isset($_SESSION['room']) && !empty($_SESSION['room']))
 	{
-		echo '<tr><th class="reservation_time_th">' . $time . '</th>';
+		$room = $_SESSION['room'];
+	}
 
-		$i = 0;
+	echo '<h1>Room: '.$room.'</h1>';
+	echo '<center><img src="rooms/'.$room.'.png" height="500"></center>';
 
-		while($i < 7)
+	if($room != "room-overview")
+	{
+
+		echo '<table id="reservation_table"><colgroup span="1" id="reservation_time_colgroup"></colgroup><colgroup span="7" id="reservation_day_colgroup"></colgroup>';
+
+		$days_row = '<tr><td id="reservation_corner_td"><input type="button" class="blue_button small_button" id="reservation_today_button" value="Today"></td><th class="reservation_day_th">Monday</th><th class="reservation_day_th">Tuesday</th><th class="reservation_day_th">Wednesday</th><th class="reservation_day_th">Thursday</th><th class="reservation_day_th">Friday</th><th class="reservation_day_th">Saturday</th><th class="reservation_day_th">Sunday</th></tr>';
+
+		if($week == global_week_number)
 		{
-			$i++;
-
-			echo '<td><div class="reservation_time_div"><div class="reservation_time_cell_div" id="div:' . $week . ':' . $i . ':' . $time . '" onclick="void(0)">' . read_reservation($week, $i, $time) . '</div></div></td>';
+			echo highlight_day($days_row);
+		}
+		else
+		{
+			echo $days_row;
 		}
 
-		echo '</tr>';
-	}
+		foreach($global_rooms[$room] as $t)
+		{
+			$time = $room.$t;
+			echo '<tr><th class="reservation_time_th">' . $t . '</th>';
 
-	echo '</table>';
+			$i = 0;
+
+			while($i < 7)
+			{
+				$i++;
+
+				echo '<td><div class="reservation_time_div"><div class="reservation_time_cell_div" id="div:' . $week . ':' . $i . ':' . $time . '" onclick="void(0)">' . read_reservation($week, $i, $time) . '</div></div></td>';
+			}
+
+			echo '</tr>';
+		}
+
+		echo '</table>';
+	}
 }
 else
 {

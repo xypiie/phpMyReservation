@@ -48,7 +48,7 @@ function showforgot_password()
 	
 }
 
-function showreservations()
+function showreservations(room)
 {
 	page_load('reservation');
 	div_hide('#content_div');
@@ -58,9 +58,9 @@ function showreservations()
 		$('#content_div').html(data);
 		div_fadein('#content_div');
 
-		$.get('reservation.php?week='+global_week_number, function(data)
+		$.get('reservation.php?week='+global_week_number+'&room='+room, function(data)
 		{
-			$('#reservation_table_div').html(data).slideDown('slow', function() { setTimeout(function() { div_fadein('#reservation_table_div'); }, 250); });
+			$('#reservation_table_div').html(data).slideDown('fast', function() { setTimeout(function() { div_fadein('#reservation_table_div'); }, 10); });
 			page_loaded();
 		});
 	});
@@ -881,7 +881,7 @@ function hash()
 	{
 		if(typeof session_logged_in != 'undefined')
 		{
-			showreservations();
+			showreservations('');
 		}
 		else
 		{
@@ -905,6 +905,10 @@ function hash()
 		else if(hash == 'help')
 		{
 			showhelp();
+		}
+		else if(hash.match(/^room.*$/))
+		{
+			showreservations(hash);
 		}
 		else if(hash == 'cp')
 		{
