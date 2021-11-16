@@ -1,36 +1,33 @@
-phpMyReservation
-================
+# phpMyReservation
 
-Fork of [OleJon's](http://www.olejon.net) wonderful timeslot booking system for PHP and MySQL hosts.
+phpMyReservation, a simple PHP timeslot booking system.
+Fork of [OleJon's](http://www.olejon.net) discontinued timeslot booking system for PHP and MySQL hosts.
 
-
-####Features
-    Fast, easy & smooth
-    User login
-    Browse through all weeks of the year
-    A price per reservation can be set
-    Usage is stored automatically
-    User control panel
-    Advanced admin control panel
-    Receive reservation reminders by email 
+## Features
+* Fast, easy & smooth
+* User login
+* Browse through all weeks of the year
+* A price per reservation can be set
+* Usage is stored automatically
+* User control panel
+* Advanced admin control panel
+* Receive reservation reminders by email 
     
-####Requirements
+## Requirements
 
-#####Server:
-        Web server with PHP
-        MySQL 
+### Server
 
-#####Client:
-        A modern browser 
+* Web server with PHP
+* MySQL / MariaDB
 
-####Screenshots
+### Client
+* A modern browser 
+
+## Screenshots
 ![1.0 reservation screen](doc/demo.png "1.0 reservation screen")
 ![1.0 signup screen](doc/signup.png "1.0 signup screen")
 
-####Demo
-[This is a hosted demo of 1.0 of the project](http://www.olejon.net/code/phpmyreservation/?demo)
-
-####Installation
+## Installation
 1. Clone this repo
 2. Import phpmyreservation.sql into mysql or use phpMyAdmin
 3. Edit config.php. Secret code is 1234 by default. Set to 0 to disable.
@@ -40,5 +37,13 @@ Fork of [OleJon's](http://www.olejon.net) wonderful timeslot booking system for 
 7. Create a new user. The first created user will get admin rights
 8. Set the price per reservation in the control panel (just set to 0 if usage is free) 
 
-####Reservation reminders
+## Reservation reminders
 [Email reminders are documented here](doc/ReservationReminders.md)
+
+## Contribution
+* original implementation by [OleJon's](http://www.olejon.net)
+* modifications by [piie](http://piie.net)
+
+## License
+As there was no License file included in original source code drop from [OleJon's](http://www.olejon.net),
+it has been added according the licence of the [original source code repository](https://web.archive.org/web/20150402034455/http://code.google.com/p/phpmyreservation)
