@@ -3,8 +3,8 @@
 // About
 
 define('global_project_name', 'phpMyReservation');
-define('global_project_version', '1.0');
-define('global_project_website', 'http://www.olejon.net/code/phpmyreservation/');
+define('global_project_version', '2.0');
+define('global_project_website', 'https://github.com/xypiie/phpMyReservation');
 
 // Include necessary files
 
@@ -83,22 +83,6 @@ if(strlen(global_salt) != 9)
 if(isset($_GET['day_number']))
 {
 	echo date('N');
-}
-elseif(isset($_GET['latest_version']))
-{
-	$latest_version_url = global_project_website . 'latest-version.php?version=' . urlencode(global_project_version);
-	$latest_version_url_context = stream_context_create(array('http'=>array('timeout'=>5)));
-	@$latest_version = file_get_contents($latest_version_url, false, $latest_version_url_context);
-	$latest_version = trim($latest_version);
-
-	if(empty($latest_version) || !is_numeric($latest_version))
-	{
-		echo '<span class="error_span">Could not get latest version</span>';
-	}
-	else
-	{
-		echo 'Latest version: ' . $latest_version;
-	}
 }
 
 ?>

@@ -198,11 +198,15 @@ function page_loaded(page)
 
 		setTimeout(function()
 		{
-			$.get('main.php?latest_version', function(data)
+			$.get('https://raw.githubusercontent.com/xypiie/phpMyReservation/master/main.php', function(data)
 			{
-				if($('#about_latest_version_p').length)
+				var version = data.match(/define.*global_project_version.*'([0-9\.]+)'/);
+				if(version)
 				{
-					$('#about_latest_version_p').html(data);
+					if($('#about_latest_version_p').length)
+					{
+						$('#about_latest_version_p').html("Latest upstream version: phpMyReservation ".concat(version[1]));
+					}
 				}
 			});
 		}, 1000);
@@ -654,31 +658,6 @@ function get_reservation_reminders()
 	$.get('cp.php?get_reservation_reminders', function(data) { $('#reservation_reminders_span').html(data); });
 }
 
-function add_one_reservation()
-{
-	$('#usage_message_p').html('<img src="img/loading.gif" alt="Loading"> Saving...').slideDown('fast');
-
-	$.post('reservation.php?make_reservation', { week: '0', day: '0', time: '0' }, function(data)
-	{
-		if(data == 1)
-		{
-			setTimeout(function()
-			{
-				if($('#users_div').length)
-				{
-					list_users();
-				}
-
-				get_usage();
-				$('#usage_message_p').slideUp('fast');
-			}, 1000);
-		}
-		else
-		{
-			$('#usage_message_p').html(data);
-		}
-	});
-}
 
 function toggle_reservation_reminder()
 {
@@ -836,7 +815,6 @@ $(document).ready( function()
 	$(document).on('click', '#delete_all_reservations_button', function() { delete_all('reservations'); });
 	$(document).on('click', '#delete_all_users_button', function() { delete_all('users'); });
 	$(document).on('click', '#delete_everything_button', function() { delete_all('everything'); });
-	$(document).on('click', '#add_one_reservation_button', function() { add_one_reservation(); });
 
 	// Checkboxes
 	$(document).on('click', '#reservation_reminders_checkbox', function() { toggle_reservation_reminder(); });

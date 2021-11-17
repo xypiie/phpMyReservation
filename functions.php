@@ -34,6 +34,12 @@ function mysql_real_escape_string($s)
 	return mysqli_real_escape_string($con, $s);
 }
 
+function mysql_error()
+{
+	global $con;
+	return mysqli_error($con);
+}
+
 // Configuration
 
 function get_configuration($data)

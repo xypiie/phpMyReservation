@@ -31,8 +31,11 @@ elseif($_SESSION['user_is_admin'] == '1' && isset($_GET['delete_all']))
 }
 elseif($_SESSION['user_is_admin'] == '1' && isset($_GET['save_system_configuration']))
 {
-	$price = mysql_real_escape_string($_POST['price']);
-	echo save_system_configuration($price);
+	if(global_currency != '0')
+	{
+		$price = mysql_real_escape_string($_POST['price']);
+		echo save_system_configuration($price);
+	}
 }
 elseif(isset($_GET['get_usage']))
 {
@@ -83,6 +86,10 @@ else
 
 		<h3>System configuration</h3>
 
+<?php
+		if(global_currency != '0')
+		{
+?>
 		<p class="smalltext_p">Changing the price will not affect previous reservations.</p>
 
 		<form action="." id="system_configuration_form"><p>
@@ -98,9 +105,12 @@ else
 		<hr class="blue_hr thick_hr">
 
 <?php
+		}
 
 	}
 
+	if(global_currency != '0')
+	{
 ?>
 
 	<h3>Your usage</h3>
@@ -109,13 +119,12 @@ else
 
 	<div id="usage_div"><?php echo get_usage(); ?></div>
 
-	<p><input type="button" class="blue_button small_button" id="add_one_reservation_button" value="Add 1 to my reservations"></p>
-
 	<p id="usage_message_p"></p>
 
 	<hr>
 
 <?php
+	}
 
 	if(global_reservation_reminders == '1')
 	{

@@ -46,7 +46,8 @@ define('global_url', 'http://127.0.0.1/phpmyreservation/');
 
 // Currency (short format). Price per reservation can be changed in the control panel
 // Currency should not be changed after reservations have been made (of obvious reasons)
-define('global_currency', '€');
+// Set it to '0' to turn off pricing system
+define('global_currency', 'Eur');
 
 // How many weeks forward in time to allow reservations
 define('global_weeks_forward', '2');

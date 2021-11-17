@@ -13,13 +13,26 @@ if(check_login() != true) { exit; }
 <h3>Reservations</h3>
 
 <ul>
-<li><b>How much does it cost?</b><br>The current price per reservation is <?php echo global_price . ' ' . global_currency; ?>.</li>
 <li><b>How do I make a reservation?</b><br>Click on the time you wish to reserve.</li>
 <li><b>How do I remove a reservation?</b><br>Click on the reservation you wish to remove.</li>
-<li><b>If I have used without making a reservation first, how do I register it?</b><br>Go to the <a href="#cp">control panel</a> and click on "Add 1 to my reservations".</li>
+<?php
+if(global_currency != '0')
+{
+?>
+<li><b>How much does it cost?</b><br>The current price per reservation is <?php echo global_price . ' ' . global_currency; ?>.</li>
 <li><b>How do I check my usage?</b><br>You can check your usage in the <a href="#cp">control panel</a>.</li>
+<?php
+}
+?>
 <li><b>What reservation restrictions are there?</b><br>You can't make or remove reservations back in time or remove other users' reservations. The webmaster may restrict how many weeks forward in time you can make reservations.</li>
-<li><b>Can I get reservation reminders?</b><br>If the webmaster has enabled it, you can turn it on in the <a href="#cp">control panel</a>.</li>
+<?php
+if(global_reservation_reminders != '0')
+{
+?>
+<li><b>Can I get reservation reminders?</b><br>You can turn it on in the <a href="#cp">control panel</a>.</li>
+<?php
+}
+?>
 </ul>
 
 <h3>Other</h3>
