@@ -58,7 +58,7 @@ function showreservations(room)
 		$('#content_div').html(data);
 		div_fadein('#content_div');
 
-		$.get('reservation.php?week='+global_week_number+'&room='+room, function(data)
+		$.get('reservation.php?week='+global_year_week+'&room='+room, function(data)
 		{
 			$('#reservation_table_div').html(data).slideDown('fast', function() { setTimeout(function() { div_fadein('#reservation_table_div'); }, 10); });
 			page_loaded();
@@ -66,47 +66,73 @@ function showreservations(room)
 	});
 }
 
-function showweek(week, option)
+function showweek(show, option)
 {
-	if(week == 'next')
+	var year = global_year;
+	var week;
+	var yearweek = $('#yearweek_number_span').html().match(/([0-9]+)-([0-9]+)/);
+
+	if (yearweek)
 	{
-		var week = parseInt($('#week_number_span').html()) + 1;
-	}
-	else if(week == 'previous')
-	{
-		var week = parseInt($('#week_number_span').html()) - 1;
-	}
-	else
-	{
-		var week = parseInt(week);
+		year = parseInt(yearweek[1]);
 	}
 
-	if(isNaN(week))
+	if(show == 'next' && yearweek)
+	{
+		week = parseInt(yearweek[2]) + 1;
+	}
+	else if(show == 'previous' && yearweek)
+	{
+		week = parseInt(yearweek[2]) - 1;
+	}
+	else // this is for the "today" option call
+	{
+		yearweek = show.match(/([0-9]+)-([0-9]+)/);
+		if (yearweek)
+		{
+			year = parseInt(yearweek[1]);
+			week = parseInt(yearweek[2]);
+		}
+	}
+
+	if(isNaN(week) || isNaN(year))
 	{
 		notify('Invalid week number', 4);
 	}
 	else
 	{
-		if(week < 1)
+		if(week < 1 && year == global_year)
 		{
-			var week = 52;
+			week = global_max_weeks_prev_year;
+			year = global_year - 1;
 		}
-		else if(week > 52)
+		else if(week < 1 && year == global_year + 1)
 		{
-			var week = 1;
+			week = global_max_weeks;
+			year = global_year;
+		}
+		else if(week > global_max_weeks && year == global_year)
+		{
+			week = 1;
+			year = global_year + 1;
+		}
+		else if(week > global_max_weeks_prev_year && year == global_year - 1)
+		{
+			week = 1;
+			year = global_year;
 		}
 
 		page_load('week');
 		div_hide('#reservation_table_div');
 
-		$.get('reservation.php?week='+week, function(data)
+		$.get('reservation.php?week=' + year + '-' + week, function(data)
 		{
 			$('#reservation_table_div').html(data);
-			$('#week_number_span').html(week);
+			$('#yearweek_number_span').html(year + '-' + week);
 			div_fadein('#reservation_table_div');
 			page_loaded('week');
 
-			if(week != global_week_number)
+			if(year + '-' + week != global_year_week)
 			{
 				$('#reservation_today_button').css('visibility', 'visible');
 			}
@@ -317,6 +343,7 @@ function toggle_reservation_time(id, week, day, time, from)
 {
 	if(session_user_is_admin == '1')
 	{
+		// TODO fix week stuff
 		if(week < global_week_number || week == global_week_number && day < global_day_number)
 		{
 			notify('You are reserving back in time. You can do that because you\'re an admin', 4);
@@ -807,7 +834,7 @@ $(document).ready( function()
 	$(document).on(offclick_event+ ' mouseout', 'input:submit, input:button, .reservation_time_div', function() { $(this).css('opacity', '1.0'); });
 
 	// Buttons
-	$(document).on('click', '#reservation_today_button', function() { showweek(global_week_number, 'today'); });
+	$(document).on('click', '#reservation_today_button', function() { showweek(global_year_week, 'today'); });
 	$(document).on('click', '#reset_user_password_button', function() { reset_user_password(); });
 	$(document).on('click', '#change_user_permissions_button', function() { change_user_permissions(); });
 	$(document).on('click', '#delete_user_reservations_button', function() { delete_user_data('reservations'); });

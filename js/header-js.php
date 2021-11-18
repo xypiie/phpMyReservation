@@ -25,6 +25,9 @@ echo 'global_weeks_forward = ' . global_weeks_forward . ';';
 echo 'global_year = ' . global_year . ';';
 echo 'global_week_number = ' . global_week_number . ';';
 echo 'global_day_number = ' . global_day_number . ';';
+echo 'global_max_weeks = ' . global_max_weeks . ';';
+echo 'global_max_weeks_prev_year = ' . global_max_weeks_prev_year . ';';
+echo 'global_year_week = "' . global_year_week . '";';
 
 // Login
 

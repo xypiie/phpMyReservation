@@ -3,7 +3,7 @@
 // About
 
 define('global_project_name', 'phpMyReservation');
-define('global_project_version', '2.0');
+define('global_project_version', '2.1');
 define('global_project_website', 'https://github.com/xypiie/phpMyReservation');
 
 // Include necessary files
@@ -33,10 +33,16 @@ define('global_price', get_configuration('price'));
 
 // Date
 
-define('global_year', date('Y'));
+date_default_timezone_set('Europe/Berlin');
+// use ISO 8601 year for year-week calculations
+define('global_year', date('o'));
 define('global_week_number', ltrim(date('W'), '0'));
 define('global_day_number', date('N'));
 define('global_day_name', date('l'));
+// according to ISO 8601, 28th December is always in the last week of the year
+define('global_max_weeks', date("W", strtotime("28 December ".global_year)));
+define('global_max_weeks_prev_year', date("W", strtotime("28 December ".(global_year - 1))));
+define('global_year_week', global_year.'-'.global_week_number);
 
 // User agent
 

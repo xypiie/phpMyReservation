@@ -303,9 +303,13 @@ function highlight_day($day)
 }
 
 
-function read_reservation($week, $day, $time)
+function read_reservation($yearweek, $day, $time)
 {
-	$query = mysql_query("SELECT * FROM " . global_mysql_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
+	$tmp = explode("-", $yearweek);
+	$year = $tmp[0];
+	$week = $tmp[1];
+
+	$query = mysql_query("SELECT * FROM " . global_mysql_reservations_table . " WHERE reservation_year='$year' AND reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
 	$reservation = mysql_fetch_array($query);
 	if(empty($reservation)) {
 		return;
@@ -313,9 +317,13 @@ function read_reservation($week, $day, $time)
 	return($reservation['reservation_user_name']);
 }
 
-function read_reservation_details($week, $day, $time)
+function read_reservation_details($yearweek, $day, $time)
 {
-	$query = mysql_query("SELECT * FROM " . global_mysql_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
+	$tmp = explode("-", $yearweek);
+	$year = $tmp[0];
+	$week = $tmp[1];
+
+	$query = mysql_query("SELECT * FROM " . global_mysql_reservations_table . " WHERE reservation_year='$year' AND reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
 	$reservation = mysql_fetch_array($query);
 
 	if(empty($reservation))
@@ -329,20 +337,18 @@ function read_reservation_details($week, $day, $time)
 	}
 }
 
-function make_reservation($week, $day, $time)
+function make_reservation($yearweek, $day, $time)
 {
+	$tmp = explode("-", $yearweek);
+	$year = $tmp[0];
+	$week = $tmp[1];
 	$user_id = $_SESSION['user_id'];
 	$user_email = $_SESSION['user_email'];
 	$user_name = $_SESSION['user_name'];
 	$price = global_price;
 
-	if($week == '0' && $day == '0' && $time == '0')
-	{
-		mysql_query("INSERT INTO " . global_mysql_reservations_table . " (reservation_made_time,reservation_week,reservation_day,reservation_time,reservation_price,reservation_user_id,reservation_user_email,reservation_user_name) VALUES (now(),'$week','$day','$time','$price','$user_id','$user_email','$user_name')")or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
-
-		return(1);
-	}
-	elseif($week < global_week_number && $_SESSION['user_is_admin'] != '1' || $week == global_week_number && $day < global_day_number && $_SESSION['user_is_admin'] != '1')
+	# TODO fix week calcs
+	if($week < global_week_number && $_SESSION['user_is_admin'] != '1' || $week == global_week_number && $day < global_day_number && $_SESSION['user_is_admin'] != '1')
 	{
 		return('You can\'t reserve back in time');
 	}
@@ -352,12 +358,10 @@ function make_reservation($week, $day, $time)
 	}
 	else
 	{
-		$query = mysql_query("SELECT * FROM " . global_mysql_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
+		$query = mysql_query("SELECT * FROM " . global_mysql_reservations_table . " WHERE reservation_year='$year' AND reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
 
 		if(mysql_num_rows($query) < 1)
 		{
-			$year = global_year;
-
 			mysql_query("INSERT INTO " . global_mysql_reservations_table . " (reservation_made_time,reservation_year,reservation_week,reservation_day,reservation_time,reservation_price,reservation_user_id,reservation_user_email,reservation_user_name) VALUES (now(),'$year','$week','$day','$time','$price','$user_id','$user_email','$user_name')")or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
 
 			return(1);
@@ -369,8 +373,13 @@ function make_reservation($week, $day, $time)
 	}
 }
 
-function delete_reservation($week, $day, $time)
+function delete_reservation($yearweek, $day, $time)
 {
+	$tmp = explode("-", $yearweek);
+	$year = $tmp[0];
+	$week = $tmp[1];
+
+	# TODO: fix week calcs
 	if($week < global_week_number && $_SESSION['user_is_admin'] != '1' || $week == global_week_number && $day < global_day_number && $_SESSION['user_is_admin'] != '1')
 	{
 		return('You can\'t reserve back in time');
@@ -381,12 +390,12 @@ function delete_reservation($week, $day, $time)
 	}
 	else
 	{
-		$query = mysql_query("SELECT * FROM " . global_mysql_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
+		$query = mysql_query("SELECT * FROM " . global_mysql_reservations_table . " WHERE reservation_year='$year' AND reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
 		$user = mysql_fetch_array($query);
 
 		if($user['reservation_user_id'] == $_SESSION['user_id'] || $_SESSION['user_is_admin'] == '1')
 		{
-			mysql_query("DELETE FROM " . global_mysql_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
+			mysql_query("DELETE FROM " . global_mysql_reservations_table . " WHERE reservation_year='$year' AND reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>MySQL error:</u> ' . htmlspecialchars(mysql_error()) . '</span>');
 
 			return(1);
 		}
